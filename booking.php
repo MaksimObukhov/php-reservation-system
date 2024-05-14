@@ -2,22 +2,17 @@
 require_once 'includes/db.php';
 include 'includes/header.php';
 
-// Fetch available schedules
+// Fetch barbers
 try {
-    // Filter out schedules that are in the past and are already booked
-    $stmt = $pdo->query('SELECT s.id, b.name AS barber_name, s.date, s.time 
-                         FROM schedules s
-                         JOIN barbers b ON s.barber_id = b.id 
-                         WHERE s.date >= CURDATE() AND s.is_available = TRUE
-                         ORDER BY s.date, s.time');
-    $schedules = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $barbers_stmt = $pdo->query('SELECT id, name FROM barbers');
+  $barbers = $barbers_stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    die('Error fetching schedules: ' . $e->getMessage());
+  die('Error fetching barbers: ' . $e->getMessage());
 }
 ?>
 
 <h2>Book an Appointment</h2>
-<form action="confirm_booking.php" method="POST">
+<form action="confirm_booking.php" method="POST" id="bookingForm">
     <label for="name">Name:</label>
     <input type="text" id="name" name="name" required><br>
 
@@ -27,17 +22,23 @@ try {
     <label for="phone">Phone:</label>
     <input type="text" id="phone" name="phone" required><br>
 
+    <label for="barber">Choose a barber:</label>
+    <select id="barber" name="barber_id" required>
+        <option value="">Select a barber</option>
+      <?php foreach ($barbers as $barber): ?>
+          <option value="<?php echo $barber['id']; ?>"><?php echo $barber['name']; ?></option>
+      <?php endforeach; ?>
+    </select><br>
+
     <label for="schedule">Choose a time slot:</label>
     <select id="schedule" name="schedule_id" required>
-    <?php foreach ($schedules as $schedule): ?>
-      <option value="<?php echo $schedule['id']; ?>">
-        <?php echo "{$schedule['barber_name']} - {$schedule['date']} at {$schedule['time']}"; ?>
-      </option>
-    <?php endforeach; ?>
+        <option value="">Select a time slot</option>
     </select><br>
 
     <button type="submit">Book Appointment</button>
 </form>
+
+<script src="js/booking.js"></script>
 
 <?php
 include 'includes/footer.php';
