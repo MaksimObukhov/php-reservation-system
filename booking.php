@@ -4,14 +4,15 @@ include 'includes/header.php';
 
 // Fetch available schedules
 try {
-  $stmt = $pdo->query('SELECT s.id, b.name AS barber_name, s.date, s.time 
+    // Filter out schedules that are in the past and are already booked
+    $stmt = $pdo->query('SELECT s.id, b.name AS barber_name, s.date, s.time 
                          FROM schedules s
                          JOIN barbers b ON s.barber_id = b.id 
-                         WHERE s.date >= CURDATE()
+                         WHERE s.date >= CURDATE() AND s.is_available = TRUE
                          ORDER BY s.date, s.time');
-  $schedules = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $schedules = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-  die('Error fetching schedules: ' . $e->getMessage());
+    die('Error fetching schedules: ' . $e->getMessage());
 }
 ?>
 
