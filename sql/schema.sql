@@ -30,6 +30,7 @@ CREATE TABLE schedules (
     barber_id INT NOT NULL,
     date DATE NOT NULL,
     time TIME NOT NULL,
+    is_available INT NOT NULL DEFAULT 1,
     FOREIGN KEY (barber_id) REFERENCES barbers(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
