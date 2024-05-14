@@ -29,27 +29,49 @@ if (!empty($_POST)) {
         if ($stmt->fetch()) {
             $formError = 'Email is already registered.';
         } else {
-            // Hash the password
-            $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+            try {
+                // Start transaction
+                $pdo->beginTransaction();
 
-            // Insert user into database
-            $stmt = $pdo->prepare("INSERT INTO users (name, email, phone, password) 
-                        VALUES (:name, :email, :phone, :passwordHash)");
-            $stmt->execute([
-                ':name' => $name,
-                ':email' =>  $email,
-                ':phone' => $phone,
-                ':passwordHash' => $passwordHash
-            ]);
+                // Hash the password
+                $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
-            // Get the new user's ID and log them in
-            $stmt = $pdo->prepare("SELECT id FROM users WHERE email = :email LIMIT 1");
-            $stmt->execute([':email' => $email]);
-            $_SESSION['user_id'] = (int)$stmt->fetchColumn();
+                // Insert user into database
+                $stmt = $pdo->prepare("INSERT INTO users (name, email, phone, password) 
+                            VALUES (:name, :email, :phone, :passwordHash)");
+                $stmt->execute([
+                    ':name' => $name,
+                    ':email' =>  $email,
+                    ':phone' => $phone,
+                    ':passwordHash' => $passwordHash
+                ]);
 
-            // Redirect to homepage
-            header('Location: login.php');
-            exit;
+                // Get the new user's ID and log them in
+                $stmt = $pdo->prepare("SELECT id FROM users WHERE email = :email LIMIT 1");
+                $stmt->execute([':email' => $email]);
+                $user_id = (int)$stmt->fetchColumn();
+
+                $_SESSION['user_id'] = $user_id;
+
+                // Update any bookings made with this email to associate with the new user
+                $update_stmt = $pdo->prepare("UPDATE bookings SET user_id = :user_id 
+                                              WHERE email = :email AND user_id IS NULL");
+                $update_stmt->execute([
+                    ':user_id' => $user_id,
+                    ':email' => $email
+                ]);
+
+                // Commit transaction
+                $pdo->commit();
+
+                // Redirect to home page
+                header('Location: ../index.php');
+                exit;
+            } catch (Exception $e) {
+                // Rollback transaction on error
+                $pdo->rollBack();
+                $formError = 'There was an error processing your registration: ' . $e->getMessage();
+            }
         }
     }
 }

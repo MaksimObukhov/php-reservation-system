@@ -7,6 +7,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+// Include database connection
 require_once '../includes/db.php';
 include '../includes/header.php';
 
@@ -14,17 +15,17 @@ $user_id = $_SESSION['user_id'];
 
 // Fetch user details
 try {
-    $user_stmt = $pdo->prepare('SELECT name, email, phone FROM users WHERE id = :user_id LIMIT 1');
-    $user_stmt-execute([':user_id' => $user_id]);
+    $user_stmt = $pdo->prepare('SELECT name, email, phone FROM users WHERE id = ? LIMIT 1');
+    $user_stmt->execute([$user_id]);
     $user = $user_stmt->fetch(PDO::FETCH_ASSOC);
 
     // Fetch user bookings
-    $bookings_stmt = $pdo->prepare('SELECT b.id, s.date, s.time, ba.name AS barber_name 
-                                    FROM bookings b 
-                                    JOIN schedules s ON b.schedule_id = s.id 
-                                    JOIN barbers ba ON s.barber_id = ba.id 
-                                    WHERE b.user_id = :$user_id 
-                                    ORDER BY s.date, s.time');
+    $bookings_stmt = $pdo->prepare('SELECT bookings.id, schedules.date, schedules.time, barbers.name AS barber_name 
+                                    FROM bookings 
+                                    JOIN schedules ON bookings.schedule_id = schedules.id 
+                                    JOIN barbers ON schedules.barber_id = barbers.id 
+                                    WHERE bookings.user_id = :user_id 
+                                    ORDER BY schedules.date, schedules.time');
     $bookings_stmt->execute([':user_id' => $user_id]);
     $bookings = $bookings_stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -45,15 +46,20 @@ try {
                 <strong>Date:</strong> <?php echo htmlspecialchars($booking['date']); ?>,
                 <strong>Time:</strong> <?php echo htmlspecialchars($booking['time']); ?>,
                 <strong>Barber:</strong> <?php echo htmlspecialchars($booking['barber_name']); ?>
-                <form method="post" action="cancel_booking.php" style="display:inline;">
-                    <input type="hidden" name="booking_id" value="<?php echo $booking['id']; ?>">
-                    <input type="submit" value="Cancel">
-                </form>
+                <?php
+                $appointment_datetime = new DateTime($booking['date'] . ' ' . $booking['time']);
+                $current_datetime = new DateTime();
+                if ($appointment_datetime > $current_datetime): ?>
+                    <form method="post" action="cancel_booking.php" style="display:inline;">
+                        <input type="hidden" name="booking_id" value="<?php echo $booking['id']; ?>">
+                        <input type="submit" value="Cancel">
+                    </form>
+                <?php endif; ?>
             </li>
         <?php endforeach; ?>
     </ul>
 <?php else: ?>
-    <p>You have no bookings.</p>
+    <p>No bookings yet.</p>
 <?php endif; ?>
 
 <?php
