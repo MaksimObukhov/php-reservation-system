@@ -1,8 +1,8 @@
 -- Insert barbers
 INSERT INTO barbers (name, contact) VALUES
-    ('John Smith', 'john.smith@example.com'),
-    ('Jane Doe', 'jane.doe@example.com'),
-    ('Bob Johnson', 'bob.johnson@example.com');
+    ('Petr "Strih" Novák', 'petr.strih@example.com'),
+    ('Martin "Kadeř" Kovář', 'martin.kader@example.com'),
+    ('Jakub "Úprava" Svoboda', 'jakub.uprava@example.com');
 
 -- Insert users
 INSERT INTO users (name, email, phone, password) VALUES

@@ -35,7 +35,7 @@ if (!empty($_POST)) {
 
             // Insert booking into database
             $booking_stmt = $pdo->prepare('INSERT INTO bookings (name, email, phone, schedule_id) 
-                          VALUES (:name, :email, :phone, :schedule_id)');
+                    VALUES (:name, :email, :phone, :schedule_id)');
             $booking_stmt->execute([
                 ':name' => $name,
                 ':email' => $email,
@@ -43,9 +43,8 @@ if (!empty($_POST)) {
                 ':schedule_id' => $schedule_id
             ]);
 
-            // TODO: add filter is_available == 1
             // Get schedule details
-            $schedule_stmt = $pdo->prepare('SELECT s.date, s.time, b.name AS barber_name
+            $schedule_stmt = $pdo->prepare('SELECT s.date, s.time, b.contact, b.name AS barber_name
                                             FROM schedules s
                                             JOIN barbers b ON s.barber_id = b.id 
                                             WHERE s.id = :schedule_id'
@@ -58,15 +57,19 @@ if (!empty($_POST)) {
 
             // Update the reserved time slot to mark it as unavailable
             $update_schedule_stmt = $pdo->prepare('UPDATE schedules SET is_available = 0 WHERE id = :schedule_id');
-            $update_schedule_stmt->execute([
-                ':schedule_id' => $schedule_id
-            ]);
+            $update_schedule_stmt->execute([':schedule_id' => $schedule_id]);
 
             // Commit transaction
             $pdo->commit();
 
             // Send confirmation email
-            send_confirmation_email($email, $name, $schedule['date'], $schedule['time']);
+            send_confirmation_email(
+                $email,
+                $name,
+                $schedule['date'],
+                $schedule['time'],
+                $schedule['contact']
+            );
 
             echo "<p>Thank you, $name. Your appointment has been booked for {$schedule['date']} at {$schedule['time']} with {$schedule['barber_name']}.</p>";
         } catch (Exception $e) {

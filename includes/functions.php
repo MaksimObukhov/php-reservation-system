@@ -6,7 +6,7 @@ require_once 'vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-function send_confirmation_email($to, $name, $date, $time) {
+function send_confirmation_email($to, $name, $date, $time, $barber_contact) {
   $mailer = new PHPMailer(true);
 
   try {
@@ -21,7 +21,9 @@ function send_confirmation_email($to, $name, $date, $time) {
     $mailer->Subject = EMAIL_SUBJECT;
 
     $htmlBody = "<html><head><meta charset=\"utf-8\" /></head><body>
-                 Dear $name,<br><br>Your booking for $date at $time has been confirmed.<br><br>Best regards,<br>Barbershop Team
+                 Dear $name,<br><br>Your booking for $date at $time has been confirmed.<br>
+                 You can also contact your barber: $barber_contact<br>
+                 <br>Best regards,<br>Barbershop Team
                  </body></html>";
 
     // Set email format to HTML
