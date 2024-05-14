@@ -43,12 +43,12 @@ if (!empty($_POST)) {
             ]);
 
             // Get the new user's ID and log them in
-            $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ? LIMIT 1");
-            $stmt->execute([$email]);
+            $stmt = $pdo->prepare("SELECT id FROM users WHERE email = :email LIMIT 1");
+            $stmt->execute([':email' => $email]);
             $_SESSION['user_id'] = (int)$stmt->fetchColumn();
 
             // Redirect to homepage
-            header('Location: ../index.php');
+            header('Location: login.php');
             exit;
         }
     }
@@ -65,13 +65,13 @@ if (!empty($formError)){
 
 <form method="post">
     <label for="name">Name:</label><br/>
-    <input type="text" name="name" id="name" required value="<?php echo htmlspecialchars($_POST['name']); ?>"><br/><br/>
+    <input type="text" name="name" id="name" required><br/><br/>
 
     <label for="email">Email:</label><br/>
-    <input type="email" name="email" id="email" required value="<?php echo htmlspecialchars($_POST['email']); ?>"><br/><br/>
+    <input type="email" name="email" id="email" required><br/><br/>
 
     <label for="phone">Phone:</label><br/>
-    <input type="text" name="phone" id="phone" required value="<?php echo htmlspecialchars($_POST['phone']); ?>"><br/><br/>
+    <input type="text" name="phone" id="phone" required><br/><br/>
 
     <label for="password">New Password:</label><br/>
     <input type="password" name="password" id="password" required><br/><br/>

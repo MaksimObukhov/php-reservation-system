@@ -13,27 +13,26 @@ try {
 
 <h2>Book an Appointment</h2>
 <form action="confirm_booking.php" method="POST" id="bookingForm">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required><br>
+    <label for="name">Name:</label><br/>
+    <input type="text" id="name" name="name" required><br/><br/>
 
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required><br>
+    <label for="email">Email:</label><br/>
+    <input type="email" id="email" name="email" required><br/><br/>
 
-    <label for="phone">Phone:</label>
-    <input type="text" id="phone" name="phone" required><br>
-
-    <label for="barber">Choose a barber:</label>
+    <label for="phone">Phone:</label><br/>
+    <input type="text" id="phone" name="phone" required><br/><br/>
+    <label for="barber">Choose a barber:</label><br/>
     <select id="barber" name="barber_id" required>
         <option value="">Select a barber</option>
       <?php foreach ($barbers as $barber): ?>
           <option value="<?php echo $barber['id']; ?>"><?php echo $barber['name']; ?></option>
       <?php endforeach; ?>
-    </select><br>
+    </select><br/><br/>
 
-    <label for="schedule">Choose a time slot:</label>
+    <label for="schedule">Choose a time slot:</label><br/>
     <select id="schedule" name="schedule_id" required>
         <option value="">Select a time slot</option>
-    </select><br>
+    </select><br/><br/>
 
     <button type="submit">Book Appointment</button>
 </form>
