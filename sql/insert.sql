@@ -12,6 +12,9 @@ INSERT INTO users (name, email, phone, password) VALUES
     ('Barbora Dvořáková', 'barbora@example.com', '5647382910', '$2y$10$SXJq1OuB/m1wO5T9cKQFh.LFSvKJvhPvhsRhkP7Zd1g60Zbf6UOFi'),
     ('Martin Procházka', 'martin@example.com', '6473829101', '$2y$10$5Tb1p6uozTQ1A9fP3i9/SOedg0b0UJ91TtJwIWZl0dfH6J7H1tdCe');
 
+-- Insert admins
+INSERT INTO admins (name, email, password) VALUES
+    ('Maksim Obukhov', 'obum00@vse.cz', '$2y$10$mquavnGF4S.jg5NE2pv5b.oMFNqQakMGejgxIURj7UPWel9njlp0S');
 
 -- Insert schedules
 INSERT INTO schedules (barber_id, date, time, is_available) VALUES

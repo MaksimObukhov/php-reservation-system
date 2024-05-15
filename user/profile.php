@@ -15,8 +15,8 @@ $user_id = $_SESSION['user_id'];
 
 // Fetch user details
 try {
-    $user_stmt = $pdo->prepare('SELECT name, email, phone FROM users WHERE id = ? LIMIT 1');
-    $user_stmt->execute([$user_id]);
+    $user_stmt = $pdo->prepare('SELECT name, email, phone FROM users WHERE id = :user_id LIMIT 1');
+    $user_stmt->execute([':user_id' => $user_id]);
     $user = $user_stmt->fetch(PDO::FETCH_ASSOC);
 
     // Fetch user bookings

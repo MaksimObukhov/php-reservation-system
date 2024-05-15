@@ -16,6 +16,15 @@ CREATE TABLE users (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+-- Struktura tabulky `admins`
+CREATE TABLE admins (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+
 -- Struktura tabulky `barbers`
 CREATE TABLE barbers (
     id INT AUTO_INCREMENT PRIMARY KEY,
