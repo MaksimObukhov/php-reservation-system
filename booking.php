@@ -3,7 +3,6 @@ session_start();
 require_once 'includes/db.php';
 include 'includes/header.php';
 
-// Fetch barbers
 try {
     $barbers_stmt = $pdo->query('SELECT id, name FROM barbers');
     $barbers = $barbers_stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -31,24 +30,61 @@ if (isset($_SESSION['user_id'])) {
         die('Error fetching user details: ' . $e->getMessage());
     }
 }
+
+$errors = [];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = trim($_POST['name']);
+    if (empty($name)) {
+        $errors['name'] = 'Musíte zadat své jméno.';
+    }
+
+    $email = trim($_POST['email']);
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors['email'] = 'Musíte zadat platnou e-mailovou adresu.';
+    }
+
+    $phone = $_POST['phone'];
+    if (empty($phone)) {
+        $errors['phone'] = 'Musíte zadat své telefonní číslo.';
+    }
+
+    $schedule_id = $_POST['schedule_id'];
+    if (empty($schedule_id)) {
+        $errors['schedule_id'] = 'Musíte si výbrat termín.';
+    }
+
+    if (empty($errors)) {
+        $_SESSION['booking_data'] = [
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone,
+            'schedule_id' => $schedule_id,
+        ];
+        header('Location: confirm_booking.php');
+        exit;
+    }
+}
 ?>
 
 <h2>Book an Appointment</h2>
-<form action="confirm_booking.php" method="POST" id="bookingForm">
+<form action="booking.php" method="POST" id="bookingForm">
     <label for="name">Name:</label><br/>
-    <input type="text" id="name" name="name" required value="<?php echo $name; ?>"><br/><br/>
+    <input type="text" id="name" name="name" required value="<?php echo htmlspecialchars($name); ?>"><br/><br/>
+    <?php if (isset($errors['name'])): ?><p><?php echo $errors['name']; ?></p><?php endif; ?>
 
     <label for="email">Email:</label><br/>
-    <input type="email" id="email" name="email" required value="<?php echo $email; ?>"><br/><br/>
+    <input type="email" id="email" name="email" required value="<?php echo htmlspecialchars($email); ?>"><br/><br/>
+    <?php if (isset($errors['email'])): ?><p><?php echo $errors['email']; ?></p><?php endif; ?>
 
     <label for="phone">Phone:</label><br/>
-    <input type="text" id="phone" name="phone" required value="<?php echo $phone; ?>"><br/><br/>
+    <input type="text" id="phone" name="phone" required value="<?php echo htmlspecialchars($phone); ?>"><br/><br/>
+    <?php if (isset($errors['phone'])): ?><p><?php echo $errors['phone']; ?></p><?php endif; ?>
 
     <label for="barber">Choose a barber:</label><br/>
     <select id="barber" name="barber_id" required>
         <option value="">Select a barber</option>
         <?php foreach ($barbers as $barber): ?>
-            <option value="<?php echo $barber['id']; ?>"><?php echo $barber['name']; ?></option>
+            <option value="<?php echo $barber['id']; ?>"><?php echo htmlspecialchars($barber['name']); ?></option>
         <?php endforeach; ?>
     </select><br/><br/>
 
@@ -56,6 +92,7 @@ if (isset($_SESSION['user_id'])) {
     <select id="schedule" name="schedule_id" required>
         <option value="">Select a time slot</option>
     </select><br/><br/>
+    <?php if (isset($errors['schedule_id'])): ?><p><?php echo $errors['schedule_id']; ?></p><?php endif; ?>
 
     <button type="submit">Book Appointment</button>
 </form>
