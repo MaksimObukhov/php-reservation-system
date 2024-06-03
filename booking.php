@@ -33,7 +33,7 @@ if (isset($_SESSION['user_id'])) {
 }
 ?>
 
-    <h2>Book an Appointment</h2>
+    <h2>Book appointment</h2>
     <form action="confirm_booking.php" method="POST" id="bookingForm">
         <label for="name">Name:</label><br/>
         <input type="text" id="name" name="name" required value="<?php echo $name; ?>"><br/><br/>
@@ -44,20 +44,20 @@ if (isset($_SESSION['user_id'])) {
         <label for="phone">Phone:</label><br/>
         <input type="text" id="phone" name="phone" required value="<?php echo $phone; ?>"><br/><br/>
 
-        <label for="barber">Choose a barber:</label><br/>
+        <label for="barber">Barber:</label><br/>
         <select id="barber" name="barber_id" required>
-            <option value="">Select a barber</option>
+            <option value="">Select barber</option>
             <?php foreach ($barbers as $barber): ?>
                 <option value="<?php echo $barber['id']; ?>"><?php echo $barber['name']; ?></option>
             <?php endforeach; ?>
         </select><br/><br/>
 
-        <label for="schedule">Choose a time slot:</label><br/>
+        <label for="schedule">Time slot:</label><br/>
         <select id="schedule" name="schedule_id" required>
-            <option value="">Select a time slot</option>
+            <option value="">Select time slot</option>
         </select><br/><br/>
 
-        <button type="submit">Book Appointment</button>
+        <button type="submit">Book</button>
     </form>
 
     <script src="js/booking.js"></script>
