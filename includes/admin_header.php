@@ -19,11 +19,13 @@ if (!isset($_SESSION['admin_id'])) {
 </head>
 <body>
 <header>
-    <h1>Admin dashboard</h1>
+    <h1>Admin Dashboard</h1>
     <nav>
         <ul>
             <li><a href="manage_bookings.php">Manage bookings</a></li>
             <li><a href="add_schedule.php">Add schedule</a></li>
+            <li><a href="manage_barbers.php">Manage barbers</a></li>
+            <li><a href="manage_users.php">Manage users</a></li>
             <li><a href="../user/signout.php">Sign out</a></li>
         </ul>
     </nav>

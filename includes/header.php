@@ -20,7 +20,7 @@ if (session_status() == PHP_SESSION_NONE) {
             <li><a href="<?php echo BASE_URL; ?>/booking.php">Book appointment</a></li>
             <?php if (isset($_SESSION['user_id'])): ?>
                 <li><a href="<?php echo BASE_URL; ?>/user/profile.php">Profile</a></li>
-                <li><a href="<?php echo BASE_URL; ?>/user/signout.php">Sign Out</a></li>
+                <li><a href="<?php echo BASE_URL; ?>/user/signout.php">Sign out</a></li>
             <?php else: ?>
                 <li><a href="<?php echo BASE_URL; ?>/user/login.php">Login</a></li>
                 <li><a href="<?php echo BASE_URL; ?>/user/register.php">Register</a></li>

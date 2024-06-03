@@ -98,7 +98,7 @@ if (!empty($formError)) {
         ?>
     </select><br/><br/>
 
-    <input type="submit" value="Update Booking">
+    <input type="submit" value="Update booking">
 </form>
 
 <?php

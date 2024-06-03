@@ -8,6 +8,7 @@ Potvrzení rezervace obdrží do svého e-mailu.
 Administrátor má možnost spravovat rezervace prostřednictvím přihlašovacího rozhraní.
 Může zobrazit aktuální seznam rezervací, upravit nebo zrušit již existující rezervace
 a také přidávat nové termíny do rozvrhu poskytovaných služeb.
+Admin zprava barberu a uzivatelu, historie objednavek. (formou kalendare)
 
 Databázové schéma zahrnuje tabulku uživatelů (klientů),
 tabulku rezervací obsahující informace o jménu, e-mailu, telefonním čísle, datu a čase rezervace,
