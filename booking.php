@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<h2>Book an Appointment</h2>
+<h2>Book appointment</h2>
 <form action="booking.php" method="POST" id="bookingForm">
     <label for="name">Name:</label><br/>
     <input type="text" id="name" name="name" required value="<?php echo htmlspecialchars($name); ?>"><br/><br/>
@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </select><br/><br/>
     <?php if (isset($errors['schedule_id'])): ?><p><?php echo $errors['schedule_id']; ?></p><?php endif; ?>
 
-    <button type="submit">Book Appointment</button>
+    <button type="submit">Book appointment</button>
 </form>
 
 <script src="js/booking.js"></script>

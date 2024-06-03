@@ -1,7 +1,16 @@
 Stránka rezervace služeb pro barbershop
 
-Uživatelé mohou rezervovat termíny pro stříhání v barbershopu. Na stránce vyplní své jméno, e-mail a telefonní číslo, aniž by se museli registrovat. Následně si vyberou datum a čas, který odpovídá rozvrhu dostupnosti barberů. Potvrzení rezervace obdrží do svého e-mailu. 
+Uživatelé mohou rezervovat termíny pro stříhání v barbershopu.
+Na stránce vyplní své jméno, e-mail a telefonní číslo, aniž by se museli registrovat.
+Následně si vyberou datum a čas, který odpovídá rozvrhu dostupnosti barberů.
+Potvrzení rezervace obdrží do svého e-mailu.
 
-Administrátor má možnost spravovat rezervace prostřednictvím přihlašovacího rozhraní. Může zobrazit aktuální seznam rezervací, upravit nebo zrušit již existující rezervace a také přidávat nové termíny do rozvrhu poskytovaných služeb. 
+Administrátor má možnost spravovat rezervace prostřednictvím přihlašovacího rozhraní.
+Může zobrazit aktuální seznam rezervací, upravit nebo zrušit již existující rezervace
+a také přidávat nové termíny do rozvrhu poskytovaných služeb.
 
-Databázové schéma zahrnuje tabulku uživatelů (klientů), tabulku rezervací obsahující informace o jménu, e-mailu, telefonním čísle, datu a čase rezervace, tabulku rozvrhu s dostupnými termíny pro stříhání, a také tabulku barberů, která uchovává informace o jednotlivých barberech pracujících v barbershopu, jako jsou jejich jméno a kontaktní údaje.
+Databázové schéma zahrnuje tabulku uživatelů (klientů),
+tabulku rezervací obsahující informace o jménu, e-mailu, telefonním čísle, datu a čase rezervace,
+tabulku rozvrhu s dostupnými termíny pro stříhání,
+a také tabulku barberů, která uchovává informace o jednotlivých barberech pracujících v barbershopu,
+jako jsou jejich jméno a kontaktní údaje.
